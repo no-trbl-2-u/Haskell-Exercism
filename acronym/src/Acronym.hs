@@ -10,19 +10,15 @@ allCaps = "GNU Image Manipulation Program" -- CCW
 ruby :: String
 ruby = "ruby on rails"
 
-isAllUpper :: String -> Bool
-isAllUpper xs = (length $ filter isUpper xs) ==  length xs
-
 flattenAcro :: String -> String
 flattenAcro xs
-  | isAllUpper xs == True = [head xs]
-  | otherwise             = xs
+  | all isUpper xs == True = [head xs]
+  | otherwise              = xs
 
 removeAcros :: String -> String
 removeAcros xs = concatMap flattenAcro (words xs)
 
 abbreviate :: String -> String
---abbreviate = undefined
 abbreviate xs  = map (toUpper . head) finalSet
   where
     finalSet = concatMap words (unIdentifier $ fromHumps $ removeAcros  xs)
@@ -36,3 +32,4 @@ abbreviate xs  = map (toUpper . head) finalSet
 -- TODO -> Either:
 -- -- a) Modularize all the specific acro makers, make some predicates, make giant switch/PM statement
 -- -- b) Stay on this road and figure out how to prevent removeAcros from folding ""ALL LOWER CASE!!""
+-- -- -- 1) Maybe add some if/then logic to removeAcros
